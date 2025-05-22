@@ -86,12 +86,12 @@ const CorrosionAnalyzer = () => {
     });
 
     try {
-      // In a real application, we would parse the C-Scan data
+      // In a real application, we would send the C-Scan image to the backend
       // But for this demo, we'll simulate the analysis with a timeout
       await new Promise((resolve) => setTimeout(resolve, 3000));
       
       // Simulate backend response
-      // C-Scan typically gives more precise results
+      // C-Scan image analysis typically gives more precise results
       const simulatedCorrosionPercentage = 15 + (Math.random() * 30);
       
       setResult({
@@ -102,19 +102,19 @@ const CorrosionAnalyzer = () => {
 
       toast({
         title: "Analysis Complete",
-        description: `C-Scan analyzed successfully. Corrosion: ${simulatedCorrosionPercentage.toFixed(2)}%`,
+        description: `C-Scan image analyzed successfully. Corrosion: ${simulatedCorrosionPercentage.toFixed(2)}%`,
       });
     } catch (error) {
       setResult({
         corrosionPercentage: 0,
         status: "error",
-        error: "Failed to analyze C-Scan data. Please try again.",
+        error: "Failed to analyze C-Scan image. Please try again.",
         dataType: "cscan",
       });
 
       toast({
         title: "Analysis Failed",
-        description: "Failed to analyze C-Scan data. Please try again.",
+        description: "Failed to analyze C-Scan image. Please try again.",
         variant: "destructive",
       });
     }
@@ -150,7 +150,7 @@ const CorrosionAnalyzer = () => {
           >
             <TabsList className="grid w-full grid-cols-2 mb-6">
               <TabsTrigger value="image">Image Analysis</TabsTrigger>
-              <TabsTrigger value="cscan">C-Scan Analysis</TabsTrigger>
+              <TabsTrigger value="cscan">C-Scan Image Analysis</TabsTrigger>
             </TabsList>
             
             <TabsContent value="image" className="mt-0">
@@ -194,7 +194,7 @@ const CorrosionAnalyzer = () => {
             <TabsContent value="cscan" className="mt-0">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-medium">Upload C-Scan Data</h3>
+                  <h3 className="text-lg font-medium">Upload C-Scan Image</h3>
                   <CScanUploader 
                     onCScanUpload={handleCScanUpload} 
                     isAnalyzing={result.status === "analyzing" && result.dataType === "cscan"} 
@@ -208,7 +208,7 @@ const CorrosionAnalyzer = () => {
                         className="flex items-center"
                       >
                         <RefreshCw className="mr-2 h-4 w-4" />
-                        Analyze New C-Scan
+                        Analyze New C-Scan Image
                       </Button>
                     </div>
                   )}
@@ -216,7 +216,7 @@ const CorrosionAnalyzer = () => {
                 
                 <div className="space-y-4">
                   <h3 className="text-lg font-medium">
-                    {cscanFile ? "C-Scan Data Preview" : "No C-Scan Selected"}
+                    {cscanFile ? "C-Scan Image Preview" : "No C-Scan Image Selected"}
                   </h3>
                   <CScanPreview cscanFile={cscanFile} />
                   
@@ -232,9 +232,9 @@ const CorrosionAnalyzer = () => {
           
           <div className="mt-6 pt-4 border-t border-gray-200 text-sm text-gray-500">
             <p>
-              This tool analyzes images and C-Scan data to detect corrosion by calculating the percentage of 
-              corroded areas. For images, it detects yellow (corroded) vs. green (healthy) areas. For C-Scan data, 
-              it processes numerical thickness values to identify corrosion patterns.
+              This tool analyzes images and C-Scan images to detect corrosion by calculating the percentage of 
+              corroded areas. For regular images, it detects yellow (corroded) vs. green (healthy) areas. For C-Scan 
+              images, it processes color patterns to identify corrosion.
             </p>
           </div>
         </CardContent>

@@ -1,7 +1,7 @@
 
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Upload, FileUp } from "lucide-react";
+import { Upload, FileImage } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 
 interface CScanUploaderProps {
@@ -41,14 +41,14 @@ const CScanUploader = ({ onCScanUpload, isAnalyzing }: CScanUploaderProps) => {
   };
 
   const validateAndUpload = (file: File) => {
-    // Check file extension - typically .csv, .txt, .dat for C-Scan data
-    const validExtensions = ['.csv', '.txt', '.dat', '.xlsx', '.xls'];
+    // Check file extension for image types
+    const validExtensions = ['.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.gif'];
     const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
     
     if (!validExtensions.includes(fileExtension)) {
       toast({
         title: "Invalid file format",
-        description: "Please upload a valid C-Scan data file (.csv, .txt, .dat, .xlsx, .xls)",
+        description: "Please upload a valid C-Scan image file (JPG, PNG, BMP, TIFF, GIF)",
         variant: "destructive"
       });
       return;
@@ -82,9 +82,9 @@ const CScanUploader = ({ onCScanUpload, isAnalyzing }: CScanUploaderProps) => {
         onDragOver={handleDrag}
         onDrop={handleDrop}
       >
-        <FileUp className="w-10 h-10 text-gray-400" />
+        <FileImage className="w-10 h-10 text-gray-400" />
         <p className="mt-2 text-sm text-gray-500">
-          Drag and drop your C-Scan data file, or{" "}
+          Drag and drop your C-Scan image, or{" "}
           <span
             onClick={onButtonClick}
             className="font-medium text-primary cursor-pointer hover:underline"
@@ -93,14 +93,14 @@ const CScanUploader = ({ onCScanUpload, isAnalyzing }: CScanUploaderProps) => {
           </span>
         </p>
         <p className="mt-1 text-xs text-gray-500">
-          CSV, TXT, DAT, XLSX (max. 10MB)
+          JPG, PNG, BMP, TIFF, GIF (max. 10MB)
         </p>
         <input
           ref={inputRef}
           onChange={handleChange}
           type="file"
           className="hidden"
-          accept=".csv,.txt,.dat,.xlsx,.xls"
+          accept=".jpg,.jpeg,.png,.bmp,.tiff,.tif,.gif"
           disabled={isAnalyzing}
         />
       </div>
@@ -111,7 +111,7 @@ const CScanUploader = ({ onCScanUpload, isAnalyzing }: CScanUploaderProps) => {
           className="w-full"
           size="lg"
         >
-          {isAnalyzing ? "Analyzing..." : "Upload C-Scan Data"}
+          {isAnalyzing ? "Analyzing..." : "Upload C-Scan Image"}
         </Button>
       </div>
     </div>
